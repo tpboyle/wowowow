@@ -4,8 +4,7 @@
 # CONSTANTS
 
 database_dir='/var/lib/mysql'
-database_container='ac-database'
-backup_command="docker cp $database_container:$database_dir "
+database_container='wowowow_ac-database'
 
 
 # CONFIG

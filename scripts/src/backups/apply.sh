@@ -13,20 +13,25 @@ source "./_config.sh"
 # FUNC
 
 # Params:
-#   $1: AzerothCore directory
+#   $1: backup filename
 apply_backup()
 {
-  # TODO - test
+  echo "pwd: $(pwd)"
   docker run \
     --rm \
-    --volumes-from ac-database \
-    -v "$1"/backup:/backup \
-    ubuntu bash -c "cd /dbdata && tar xvf /backup/backup.tar --strip 1"
+    --mount source=ac-database,target=/var/lib/mysql \
+    -v "$(pwd)/backup":/backup \
+    ubuntu bash -c "cd /var/lib/mysql && rm -rf * && tar xvf /backup/$1 --strip 1"
 }
 
 # Params:
-#  $1: ...
+#  $1: backup filename
 main()
 {
-  # TODO
+  apply_backup $1
 }
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi
+
