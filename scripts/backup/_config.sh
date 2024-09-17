@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#
+# > backup/_config.sh
+#     Provides constants and config options for backups.
+#
+
 
 # CONSTANTS
 
@@ -9,6 +14,5 @@ database_container='wowowow_ac-database'
 
 # CONFIG
 
-backup_dir="./backups"
 datetime_format="%Y-%m-%d_%H-%M-%S"
 

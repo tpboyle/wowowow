@@ -1,8 +1,7 @@
 #!/bin/bash
 
-
 #
-# > backups/prune.sh
+# > backup/prune.sh
 #     Prunes the existing backups of the AzerothCore database.
 #       Meant to be run either as a cron job or manually.
 #
@@ -23,7 +22,7 @@
 #         keep 1 per week (~12 GB per month)
 #
 
-source "./_config.sh"
+source "./scripts/backup/_config.sh"
 
 
 # TODO

@@ -1,31 +1,33 @@
+#!/bin/bash
 
-# Params:
-#   $1: AzerothCore directory
-set_working_directory()
-{
-  if [ -e $1 ]
-  then
-    cd "$1"
-  fi
-}
+#
+# > server.sh
+#     Provides server start/stop functionality.
+#
+
+
+# SOURCES
+
+source "./scripts/src/log.sh"
+
+
+# INTERFACE
 
 start_ac()
 {
+  log_info 'Starting the server...'
   docker compose up
-}
-
-start_db()
-{
-  docker compose up -d ac-database
 }
 
 stop_ac()
 {
+  log_info "Stopping the server..."
   docker compose down
 }
 
 restart_ac()
 {
+  log_info "Restarting the server..."
   stop_ac
   start_ac
 }
