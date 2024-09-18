@@ -2,7 +2,7 @@
 
 #
 # > log.sh
-#   Exposes log interface.
+#     Exposes log interface.
 #
 
 
@@ -18,6 +18,7 @@ log()
   timestamp=$(date "+%Y-%m-%d %H:%M:%S")
   echo "$timestamp: $type: $message"
 }
+
 
 # INTERFACE
 

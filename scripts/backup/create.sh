@@ -27,14 +27,30 @@ source "./scripts/backup/_prep.sh"
 
 # FUNC
 
-run_backup()
+get_backup_path()
 {
-  filename="$(date "+%Y-%m-%d_%H-%M-%S").tar"
+  year=$(date "+%Y")
+  month=$(date "+%m")
+  date=$(date "+%d")
+  path="$year/$month/$date"
+  echo "$path"
+}
+
+get_backup_filename()
+{
+  echo "$(date "+%Y-%m-%d_%H-%M-%S").tar"
+}
+
+create_backup()
+{
+  path=$(get_backup_path)
+  filename=$(get_backup_filename)
   log_info "Creating backup '$filename'..."
+  # Docker will automatically create our backup directory when it's mounted if it doesn't exist
   docker run \
     --rm \
     --mount source=wowowow_ac-database,target=/var/lib/mysql \
-    -v "$(pwd)/backups":/backups \
+    -v "$(pwd)/backups/$path":/backups \
     ubuntu bash -c "cd /var/lib/mysql && tar cvf /backups/$filename ." \
       > /dev/null
 }
@@ -50,7 +66,7 @@ main()
 {
   # Assumes that we are running from the root directory (guaranteed by setup)
   prepare_for_backup            # ./_prep.sh
-  run_backup
+  create_backup
   restart_ac_if_requested $*    # src/server.sh
 }
 

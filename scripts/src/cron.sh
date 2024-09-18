@@ -2,7 +2,7 @@
 
 #
 # > cron.sh
-#   Handles cron interactions (primarily for setting up backups).
+#     Handles cron interactions (primarily for setting up backups).
 #
 #   KNOWN BUGS:
 #     - Uses the time to find and delete the command from cron instead of the command.
@@ -53,25 +53,35 @@ append_backup_task_to_dump()
     fi
 }
 
+delete_backup_task_from_dump()
+{
+    sed -i "/$backup_time/d" "$cron_dump_fn"
+}
+
+# Params:
+#   $1: callback to run once crontab dump has been created
+update_crontab_via_dump()
+{
+    callback=$1
+    dump_crontab
+    $callback
+    flash_crontab_from_dump
+    delete_crontab_dump
+}
+
 
 # INTERFACE
 
 add_backup_cron_job()
 {
     log_info "Creating backup cron job..."
-    dump_crontab
-    append_backup_task_to_dump
-    flash_crontab_from_dump
-    delete_crontab_dump
+    update_crontab append_backup_task_to_dump
 }
 
 delete_backup_cron_job()
 {
     log_info "Removing backup cron job..."
-    dump_crontab
-    sed -i "/$backup_time/d" "$cron_dump_fn"
-    flash_crontab_from_dump
-    delete_crontab_dump
+    update_crontab delete_backup_task_from_dump
 }
 
 backup_cron_job_exists()
@@ -86,20 +96,3 @@ backup_cron_job_exists()
         return 0
     fi
 }
-
-
-# MAIN
-
-main()
-{
-    if backup_cron_job_exists
-    then
-        log_info "Backup cron job exists!"
-    else
-        log_info "Backup cron job does not exist!"
-    fi
-}
-
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-  main "$@"
-fi
