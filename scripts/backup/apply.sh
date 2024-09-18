@@ -51,7 +51,7 @@ main()
   # Assumes that we are running from the root directory (guaranteed by setup)
   filename=$1
   apply_backup $filename
-  restart_ac_if_requested $*    # src/server.sh
+  restart_ac_if_requested $*
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then

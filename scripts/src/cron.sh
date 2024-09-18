@@ -19,13 +19,13 @@ source "./scripts/src/log.sh"
 # CONSTANTS
 
 working_dir="$(pwd)"
-cron_dump_fn='cron_dump'
+cron_dump_fn='.CRON_DUMP'
+backup_command="$(pwd)/scripts/backup/create.sh --restart"
 
 
 # CONFIG
 
 backup_time="20 04 * * *"
-backup_command="$(pwd)/scripts/backup/create.sh --restart"
 
 
 # FUNC
@@ -45,7 +45,7 @@ delete_crontab_dump()
     rm "$cron_dump_fn"
 }
 
-append_backup_task_to_dump()
+append_backup_task()
 {
     if ! grep -q "$backup_command" "$cron_dump_fn"
     then
@@ -53,14 +53,14 @@ append_backup_task_to_dump()
     fi
 }
 
-delete_backup_task_from_dump()
+delete_backup_task()
 {
     sed -i "/$backup_time/d" "$cron_dump_fn"
 }
 
 # Params:
 #   $1: callback to run once crontab dump has been created
-update_crontab_via_dump()
+update_crontab()
 {
     callback=$1
     dump_crontab
@@ -75,13 +75,13 @@ update_crontab_via_dump()
 add_backup_cron_job()
 {
     log_info "Creating backup cron job..."
-    update_crontab append_backup_task_to_dump
+    update_crontab append_backup_task
 }
 
 delete_backup_cron_job()
 {
     log_info "Removing backup cron job..."
-    update_crontab delete_backup_task_from_dump
+    update_crontab delete_backup_task
 }
 
 backup_cron_job_exists()

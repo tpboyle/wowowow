@@ -11,8 +11,3 @@
 database_dir='/var/lib/mysql'
 database_container='wowowow_ac-database'
 
-
-# CONFIG
-
-datetime_format="%Y-%m-%d_%H-%M-%S"
-

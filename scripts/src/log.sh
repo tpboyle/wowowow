@@ -6,6 +6,11 @@
 #
 
 
+# CONFIG
+
+datetime_format="%Y-%m-%d %H:%M:%S"
+
+
 # FUNC
 
 # Params:
@@ -15,7 +20,7 @@ log()
 {
   type="$1"
   message="$2"
-  timestamp=$(date "+%Y-%m-%d %H:%M:%S")
+  timestamp=$(date "+$datetime_format")
   echo "$timestamp: $type: $message"
 }
 

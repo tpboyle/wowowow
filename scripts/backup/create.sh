@@ -65,9 +65,9 @@ create_backup()
 main()
 {
   # Assumes that we are running from the root directory (guaranteed by setup)
-  prepare_for_backup            # ./_prep.sh
+  prepare_for_backup
   create_backup
-  restart_ac_if_requested $*    # src/server.sh
+  restart_ac_if_requested $*
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
